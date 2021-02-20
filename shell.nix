@@ -2,6 +2,6 @@ with import <nixpkgs> {};
 
 mkShell {
   buildInputs = [
-    haskell.compiler.ghc901
+    haskell.compiler.ghc8102
   ];
 }
