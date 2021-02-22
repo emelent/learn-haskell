@@ -26,7 +26,7 @@ oneToTenDoubledMod = [x * 2 | x <- [1 .. 10], x * 2 >= 12]
 
 -- FizzBuzz
 
-fizzBuzz':: [Int] -> [String]
+fizzBuzz' :: [Int] -> [String]
 fizzBuzz' xs =
   [ if x `mod` 3 == 0 && x `mod` 5 == 0
       then "FizzBuzz"
@@ -48,3 +48,13 @@ fizzBuzz list = [fb x | x <- list]
       | n `mod` 3 == 0 = "Fizz"
       | n `mod` 5 == 0 = "Buzz"
       | otherwise = show n
+
+xy = [x * y | x <- [2, 5, 10], y <- [8, 10, 11]]
+
+nouns = ["hobo", "frog", "pope"]
+
+adjectives = ["lazy", "grouchy", "scheming"]
+
+phrases nouns adjectives = [adjective ++ " " ++ noun | adjective <- adjectives, noun <- nouns]
+
+removeNonUpperCase phrase = [c | c <- phrase, c `elem` ['A' .. 'Z']]
