@@ -58,3 +58,17 @@ adjectives = ["lazy", "grouchy", "scheming"]
 phrases nouns adjectives = [adjective ++ " " ++ noun | adjective <- adjectives, noun <- nouns]
 
 removeNonUpperCase phrase = [c | c <- phrase, c `elem` ['A' .. 'Z']]
+
+
+-- triangles with list comprehensions
+{- finding right angled triangle with perimeter of 24 -}
+--
+--
+triangles x = [ (a, b, c) | c <- [1..x], b <- [1..x], a <- [1..x] ]
+rightTriangles h = [ (a, b, c) | c <- [1..h], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2 ]
+rightTriangles' h = [ (a, b, c) | c <- [1..h], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2, a + b + c == 24 ]
+
+-- right angle triangle with max hypotenus h and perimeter p
+--
+-- rightTriangles'':: (Num, Eq a) => a -> a -> [(a, a, a)]
+rightTriangles'' h p = [ (a, b, c) | (a, b, c) <- rightTriangles h, a + b + c == p ]
