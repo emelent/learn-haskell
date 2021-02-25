@@ -38,3 +38,7 @@ _fact:: (Eq a, Num a) => a -> a
 _fact x 
   | x == 1 = 1
   | otherwise = x * _fact (x - 1)
+
+_fact':: Integral a => a -> a
+_fact' 0 = 1
+_fact' x = x * _fact (x - 1)
