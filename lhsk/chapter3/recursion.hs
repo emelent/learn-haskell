@@ -122,3 +122,69 @@ stringToInt str = stringToIntAcc 0 str
     stringToIntAcc acc (c: str) 
       = stringToIntAcc (10 * acc + digitToInt c) str
 
+
+-- left associative
+--
+fastReverse :: [a] -> [a]
+fastReverse xs = reverseAcc [] xs
+  where
+    reverseAcc::[a] -> [a] -> [a]
+    reverseAcc accList [] = accList
+    reverseAcc accList (x:xs) = reverseAcc (x: accList) xs
+
+
+-- combinations maps, filters and two forms of 
+-- reducers(accumulator, non-accumulator)
+--
+
+-- sum of even numbers
+--   filterEven, then sum the results
+sumEvenElems:: (Integral a) => [a] -> a
+sumEvenElems [] = 0
+sumEvenElems xs = sum (filterEven xs)
+  where
+    filterEven::(Integral a) => [a] -> [a]
+    filterEven [] = []
+    filterEven (x:xs) 
+      | x `mod` 2 == 0 = x : filterEven xs
+      | otherwise = filterEven xs
+
+
+sumEvenElems':: (Integral a) => [a] -> a
+sumEvenElems' [] = 0
+sumEvenElems' (x:xs)
+  | x `mod` 2 == 0 = x + (sumEvenElems' xs)
+  | otherwise = sumEvenElems' xs
+
+
+
+type FPoint = (Float, Float)
+
+fDistance::FPoint -> FPoint -> Float
+fDistance (x1, y1) (x2, y2) = sqrt (dx*dx + dy*dy)
+  where 
+    dx = x2 - x1
+    dy = y2 - y1
+
+
+closestPoint:: FPoint -> [FPoint] -> FPoint
+closestPoint o [] = error "No points given."
+closestPoint o (p:ps) = closestPointAcc o p ps
+  where 
+    closestPointAcc:: FPoint -> FPoint -> [FPoint] -> FPoint
+    closestPointAcc o cp [] = cp
+    closestPointAcc o cp (p:ps)
+      | fDistance o cp > fDistance o p = closestPointAcc o p ps
+      | otherwise = closestPointAcc o cp ps
+
+
+closestPoint':: FPoint -> [FPoint] -> FPoint
+closestPoint' o [] = error "No points given."
+closestPoint' o (p: []) = p
+closestPoint' o (p:ps)
+  | pDist < nDist = p
+  | otherwise = closestPoint' o ps
+  where
+    pDist = fDistance o p
+    nDist = fDistance o (closestPoint' o ps)
+
