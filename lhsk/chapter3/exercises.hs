@@ -42,3 +42,55 @@ _fact x
 _fact':: Integral a => a -> a
 _fact' 0 = 1
 _fact' x = x * _fact (x - 1)
+
+-- 4. Write a recursive function enumFromTo which produces such 
+--    a list given m and n, such that `enumFromTo m n = [m..n]`
+--
+_enumFromTo:: (Eq a, Ord a, Num a) => a -> a-> [a]
+_enumFromTo m n
+  | n < m = error "cannot increment down"
+  | n == m = [m]
+  | otherwise = m : _enumFromTo (m + 1) n
+  
+
+-- 5. Write a recursive function countOdds which calculates 
+--    the number of odd elements in a list of Int values:
+--      countOdds [1, 6, 9, 14, 16, 22] = 2 
+--
+_countOdds::Integral a => [a] -> Int
+_countOdds [] = 0
+_countOdds (x:xs)
+  | x `mod` 2 /= 0 = 1 + (_countOdds xs) 
+  | otherwise = (_countOdds xs)
+
+
+-- 6. Write a recursive function removeOdd that, given a list 
+--    of integers, removes all odd numbers from the list, e.g.,
+--    removeOdd [1, 4, 5, 7, 10] = [4, 10]
+--
+removeOdd:: Integral a => [a] -> [a]
+removeOdd [] = []
+removeOdd (x:xs)
+  | odd x = removeOdd xs
+  | otherwise = x: removeOdd xs
+
+
+type FPoint = (Float, Float)
+
+fDistance::FPoint -> FPoint -> Float
+fDistance (x1, y1) (x2, y2) = sqrt (dx*dx + dy*dy)
+  where 
+    dx = x2 - x1
+    dy = y2 - y1
+
+
+closestPoint:: FPoint -> [FPoint] -> FPoint
+closestPoint o [] = error "No points given."
+closestPoint o (p:ps) = closestPointAcc o (p, fDistance o p) ps
+  where 
+    closestPointAcc:: FPoint -> (FPoint,Float) -> [FPoint] -> FPoint
+    closestPointAcc o (cp, dst) [] = cp
+    closestPointAcc o (cp, dst) (p:ps)
+      | dst > pDst = closestPointAcc o (p, pDst) ps
+      | otherwise = closestPointAcc o (cp, dst) ps
+        where pDst = fDistance o p

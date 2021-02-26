@@ -188,3 +188,10 @@ closestPoint' o (p:ps)
     pDist = fDistance o p
     nDist = fDistance o (closestPoint' o ps)
 
+
+{- 
+  closestPoint'':: FPoint -> [FPoint] -> FPoint
+  closestPoint'' o [] = error "No points given."
+  closestPoint'' o (p: []) = p
+  closestPoint'' o (p: ps) =  closestOfTwo o p  (closestPoint o ps)
+ -}
