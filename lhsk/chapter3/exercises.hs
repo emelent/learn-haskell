@@ -75,6 +75,16 @@ removeOdd (x:xs)
   | otherwise = x: removeOdd xs
 
 
+
+-- 7. Challenge: At the end of the last screencast, demonstrating 
+--    the implementation of 
+--    closestPoint :: Point -> [Point] -> Point, 
+--    we mentioned that the final implementation is less efficient 
+--    than one might hope, as it uses the distance functions twice 
+--    —instead of once— per recursive step. Improve the implementation 
+--    to avoid that inefficiency.
+--
+
 type FPoint = (Float, Float)
 
 fDistance::FPoint -> FPoint -> Float
