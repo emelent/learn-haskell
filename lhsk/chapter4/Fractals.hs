@@ -37,7 +37,7 @@ spiralRays angle scaleFactor n colour line
       | n <= 0 = []
       | otherwise = (colour, [p1, p2]) : spiralRays' (n-1) newColour newLine
       where
-        newColour = fade colour
+        newColour = if (mod n 3 == 0) then fade colour else colour
         newLine   = scaleLine scaleFactor (rotateLine angle line)
 
 rotateLine:: Float -> Line -> Line
@@ -64,3 +64,26 @@ scaleLine factor ((x1, y1), (x2, y2))
     x' = factor * x0
     y' = factor * y0
 
+
+connectLine:: Line -> Line -> Line
+connectLine (_, pE) line2 = startLineFrom pE line2
+
+startLineFrom :: Point -> Line -> Line
+startLineFrom startPoint@(x0, y0) ((xS, yS), (xE, yE))
+    = (startPoint, (x0 + (xE - xS), y0 + (yE - yS)))
+
+
+spiral:: Float -> Float -> Int -> Line -> Path
+spiral angle scaleFactor n line = spiral' n line
+    where
+        spiral' n line@(p1, p2)
+            | n <= 0 = []
+            | otherwise = p1 : spiral' (n - 1) newLine
+            where
+                newLine = connectLine line (scaleLine scaleFactor (rotateLine angle line))
+
+
+polygon:: Int -> Line -> Path
+polygon n line | n > 2 = spiral rotationAngle 1 (n + 1) line
+    where
+        rotationAngle = (2 * pi) / (fromIntegral n)
