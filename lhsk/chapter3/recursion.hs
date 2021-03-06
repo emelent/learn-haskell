@@ -54,11 +54,12 @@ inRadius point radius (p:ps)
 prod:: Num a => [a] -> a
 prod [] = 1
 prod (x:xs) = x * (prod xs)
+-- prod (x:xs) = foldr (*) 1 xs
 
 
 smallest:: Ord a => [a] -> a
 smallest [] = error "Can't get the smallest of an empty list"
-smallest (x:[]) = x
+smallest [x] = x
 smallest (x:xs)
   | x <= smallest xs = x
   | otherwise = smallest xs 
