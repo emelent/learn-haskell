@@ -43,5 +43,15 @@ drawPicture linewidth picture
     toColour (a,b,c,d) = PixelRGBA8 (fromIntegral a) (fromIntegral b) (fromIntegral c) (fromIntegral d)
 
 
+drawPicture' :: (Int, Int) -> Float -> Picture -> Image PixelRGBA8
+drawPicture' (width, height) linewidth picture
+  = renderDrawing  width height (toColour black) $
+      mapM_ (\(col, path) -> withTexture (uniformTexture $ toColour col) (drawPath path)) picture
+  where
+    drawPath points    = stroke linewidth  JoinRound (CapRound, CapStraight 0) $
+                           polyline (map (\(x, y) -> V2 x y) points)
+    toColour (a,b,c,d) = PixelRGBA8 (fromIntegral a) (fromIntegral b) (fromIntegral c) (fromIntegral d)
+
+
 
 
